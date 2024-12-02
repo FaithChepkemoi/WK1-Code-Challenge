@@ -7,7 +7,7 @@ function calculateNetSalary(){
         { limit:500000, rate:0.3},
         { limit:800000 , rate:0.325},
         {limit: Infinity, rate:0.35}
-    ]
+    ];
     const NHIF_Rates=[
         { limit: 5999, deduction: 150 },
         { limit: 7999, deduction: 300 },
@@ -25,8 +25,21 @@ function calculateNetSalary(){
         {  limit: 79999, deduction: 1400 },
         {  limit: 89999, deduction:  1500},
         {  limit: 99999, deduction: 1600 },
-        { limit: Infinity, deduction:1700 },
-
-
+        { limit: Infinity, deduction:1700 }
     ];
+ let basicSalary= parseFloat(prompt("Enter your basic salary (KES): "));
+ let benefits = parseFloat(prompt("Enter your benefits (KES): "));
+
+ //Gross Salary
+ let grossSalary = basicSalary + benefits;
+
+ // Calculating PAYE
+ let paye = calculatePAYE(grossSalary, PAYE_Band);
+
+ // Calculate NSSF
+ let nssf = calculateNSSF(grossSalary);
+
+ 
+  
+
 }
