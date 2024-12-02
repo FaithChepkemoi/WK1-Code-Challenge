@@ -1,5 +1,18 @@
 
-function calculateNetSalary(){
+const readline = require('readline');
+
+// Creating an interface for input and output
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
+
+
+
+
+
+// Calculating Net salary
+function calculateNetSalary(basicSalary,benefits){
     //PAYE deductions
     const PAYE_Band= [
         { limit: 24000, rate:0.1},
@@ -27,8 +40,7 @@ function calculateNetSalary(){
         {  limit: 99999, deduction: 1600 },
         { limit: Infinity, deduction:1700 }
     ];
- let basicSalary= parseFloat(prompt("Enter your basic salary (KES): "));
- let benefits = parseFloat(prompt("Enter your benefits (KES): "));
+
 
  //Gross Salary
  let grossSalary = basicSalary + benefits;
@@ -38,6 +50,9 @@ function calculateNetSalary(){
 
  // Calculate NSSF
  let nssf = calculateNSSF(grossSalary);
+
+  // Calculate NHIF
+  let nhif = calculateNHIF(grossSalary, NHIF_Rates);
 
  //Calculate the net salary
  let totalDeductions = paye + nhif + nssf;
@@ -73,4 +88,30 @@ function calculateNHIF(grossSalary, rates) {
         }
     }
 }
+function calculateNSSF(grossSalary) {
+    const TIER_I_LIMIT = 7000; 
+    const TIER_II_LIMIT = 36000; 
 
+    let tier1Contribution = Math.min(grossSalary * 0.06, TIER_I_LIMIT * 0.06); // Employee contribution for Tier I capped at KES 420
+    let tier2Contribution = Math.max(0, Math.min(grossSalary * 0.06 - tier1Contribution, TIER_II_LIMIT * 0.06)); // Employee contribution for Tier II capped at KES 2160
+
+    return tier1Contribution + tier2Contribution; // Total NSSF contribution
+}
+
+// Prompt user for input and calculate net salary
+rl.question("Enter your basic salary (KES): ", (basicInput) => {
+    const basicSalary = parseFloat(basicInput);
+
+    rl.question("Enter your benefits (KES): ", (benefitsInput) => {
+        const benefits = parseFloat(benefitsInput);
+
+        if (isNaN(basicSalary) || isNaN(benefits)) {
+            console.log("Invalid input. Please enter numeric values.");
+            rl.close();
+            return;
+        }
+
+        calculateNetSalary(basicSalary, benefits);
+        rl.close(); 
+    });
+});
