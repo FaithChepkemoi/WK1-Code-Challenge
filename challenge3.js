@@ -39,7 +39,17 @@ function calculateNetSalary(){
  // Calculate NSSF
  let nssf = calculateNSSF(grossSalary);
 
- 
+ //Calculate the net salary
+ let totalDeductions = paye + nhif + nssf;
+    let netSalary = grossSalary - totalDeductions;
+
+    //Print results
+    console.log(`Gross Salary: KES ${grossSalary.toFixed(2)}`);
+    console.log(`PAYE (Tax): KES ${paye.toFixed(2)}`);
+    console.log(`NHIF Deduction: KES ${nhif.toFixed(2)}`);
+    console.log(`NSSF Deduction: KES ${nssf.toFixed(2)}`);
+    console.log(`Total Deductions: KES ${totalDeductions.toFixed(2)}`);
+    console.log(`Net Salary: KES ${netSalary.toFixed(2)}`);
   
 
 }
