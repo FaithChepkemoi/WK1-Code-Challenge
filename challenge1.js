@@ -15,7 +15,7 @@ function getStudentGrade() {
         if (isNaN(marks) || marks < 0 || marks > 100) {
             console.log("Invalid input. Please enter a number between 0 and 100.");
             rl.close(); // Close the readline interface
-            return; // Exit the function if input is invalid
+            return; 
         }
 
         // Determine the grade based on the marks
@@ -38,5 +38,5 @@ function getStudentGrade() {
     });
 }
 
-// Call the function to execute
+// Callling  the function to execute
 getStudentGrade();
