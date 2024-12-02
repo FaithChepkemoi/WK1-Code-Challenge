@@ -50,6 +50,27 @@ function calculateNetSalary(){
     console.log(`NSSF Deduction: KES ${nssf.toFixed(2)}`);
     console.log(`Total Deductions: KES ${totalDeductions.toFixed(2)}`);
     console.log(`Net Salary: KES ${netSalary.toFixed(2)}`);
-  
-
 }
+function calculatePAYE(grossSalary, bands) {
+    let tax = 0;
+    let previousLimit = 0;
+
+    for (let band of bands) {
+        if (grossSalary > previousLimit) {
+            let taxableIncome = Math.min(band.limit - previousLimit, grossSalary - previousLimit);
+            tax += taxableIncome * band.rate;
+            previousLimit = band.limit;
+        }
+        if (previousLimit >= grossSalary) break;
+    }
+    return tax;
+}
+
+function calculateNHIF(grossSalary, rates) {
+    for (let rate of rates) {
+        if (grossSalary <= rate.limit) {
+            return rate.deduction;
+        }
+    }
+}
+
